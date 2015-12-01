@@ -1,0 +1,92 @@
+#! /bin/bash
+
+inpfile=$1
+
+#---------------------add-primevector to xsf
+function addcrys (){
+lgin=`cat $inpfile | wc -l`
+j=0
+for ((i=1;i<=$lgin;i++))
+do
+	testlcrys=`cat $inpfile | sed -n "${i}p" | awk '{print $1}'`
+	case $testlcrys in
+		lattice_vector )
+		cat $inpfile | sed -n "${i}p" | awk '{print "    ",$2,$3,$4}' ;
+		j=`expr $j + 1`  ;
+		case $j in
+		1)
+		lx1=`cat $inpfile | sed -n "${i}p" | awk '{print $2}'` ;
+		ly1=`cat $inpfile | sed -n "${i}p" | awk '{print $3}'` ;
+		lz1=`cat $inpfile | sed -n "${i}p" | awk '{print $4}'` ;
+		ll1=$(echo "scale=8; sqrt(($lx1^2)+($ly1^2)+($lz1^2))" | bc -l) ;;
+		2)
+                lx2=`cat $inpfile | sed -n "${i}p" | awk '{print $2}'` ;
+                ly2=`cat $inpfile | sed -n "${i}p" | awk '{print $3}'` ;
+                lz2=`cat $inpfile | sed -n "${i}p" | awk '{print $4}'` ;
+                ll2=$(echo "scale=8; sqrt(($lx2^2)+($ly2^2)+($lz2^2))" | bc -l) ;;
+		3)
+                lx3=`cat $inpfile | sed -n "${i}p" | awk '{print $2}'` ;
+                ly3=`cat $inpfile | sed -n "${i}p" | awk '{print $3}'` ;
+                lz3=`cat $inpfile | sed -n "${i}p" | awk '{print $4}'` ;
+                ll3=$(echo "scale=8; sqrt(($lx3^2)+($ly3^2)+($lz3^2))" | bc -l) ;;      
+		esac ;;
+		* ) continue ;;
+	esac
+done
+}
+#---------------------------------------------------------------------
+
+#-----find number of atoms in cell
+nat=0
+lgin=`cat $inpfile | wc -l`
+for ((i=1;i<=$lgin;i++))
+do
+tastatomline=`cat $inpfile | sed -n "${i}p" | awk '{print $1}'`
+case $tastatomline in
+	atom ) nat=$[nat+1] ;;
+	atom_frac ) nat=$[nat+1] ;;
+	* ) continue ;;
+esac
+done
+#-----------------------------------------------------------------------
+
+#-------------crystal test
+testcrys=`cat $inpfile | grep lattice_vector `
+
+if test "$testcrys"
+then
+	echo " CRYSTAL" 
+	echo " PRIMVEC"
+	addcrys
+	echo " PRIMCOORD"
+	echo " "$nat" 1"
+
+else
+	echo " ATOMS"
+fi
+#---------------------------------------------------------------------
+
+#-------------add atoms
+for ((i=1;i<=$lgin;i++))
+do
+	tal=`cat $inpfile | sed -n "${i}p" | awk '{print $1}'`
+        case $tal in
+	atom ) 
+		aname=`cat $inpfile | sed -n "${i}p" | awk '{print $5}'`;
+		cat $inpfile | sed -n "${i}p" | awk -v var="$aname" '{print "    ",var,$2,$3,$4}' ;;
+	atom_frac )
+			af=`cat $inpfile | sed -n "${i}p" | awk '{print $2}'` ;
+			bf=`cat $inpfile | sed -n "${i}p" | awk '{print $3}'` ;
+			cf=`cat $inpfile | sed -n "${i}p" | awk '{print $4}'` ;
+
+			xf=$(echo "scale=8; $af*($lx1)+$bf*($lx2)+$cf*($lx3)" | bc -l) ;
+                        yf=$(echo "scale=8; $af*($ly1)+$bf*($ly2)+$cf*($ly3)" | bc -l) ;
+                        zf=$(echo "scale=8; $af*($lz1)+$bf*($lz2)+$cf*($lz3)" | bc -l) ;
+
+
+			aname=`cat $inpfile | sed -n "${i}p" | awk '{print $5}'` ;
+			echo "" | awk -v var="$aname" -v vx="$xf" -v vy="$yf" -v vz="$zf" '{print "    ",var,vx,vy,vz}' ;;
+		* ) continue ;;
+        esac
+done
+#--------------------------------------------------------------------
