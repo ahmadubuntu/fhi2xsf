@@ -17,7 +17,7 @@ EOF
 
 cat > shfhi2xsf.sh << EOF
 #! /bin/bash
-${PWD}/fhi2xsf $1
+${PWD}/fhi2xsf \$1
 EOF
 
 chmod +x shfhi2xsf.sh
