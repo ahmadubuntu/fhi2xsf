@@ -15,12 +15,9 @@ For installing fhi-aims plugin for xcrysden, at first install xcrysden , then :
 	xcrysden --fhiaims geometry.in											      
 
 
-
-
 BUG report:
-	If you see any bug in this plugin let me know.
-
+If you see any bug in this plugin let me know.
 
 Author:		Ahmad Abdolmaleki
-website:	http://ahmadubuntu.ir
-researchgate:	https://www.researchgate.net/profile/Ahmad_Abdolmaleki
+Website:	http://ahmadubuntu.ir
+Researchgate:	https://www.researchgate.net/profile/Ahmad_Abdolmaleki
