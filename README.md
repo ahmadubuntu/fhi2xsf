@@ -4,18 +4,20 @@ version:
 1.0.1
 
 
-Install guide:
+# Install guide:
 
 For installing fhi-aims plugin for xcrysden, at first install xcrysden , then :
 	tar zxvf fhi2xsf.tar.gz
 	cd fhi2xsf
   	 chmod +x install.sh												      
   	./install.sh													      
- then you can view fhi-aims geometry.in files via xcrysden by the following command:						      
+
+# Run
+Then you can view fhi-aims geometry.in files via xcrysden by the following command:						      
 	xcrysden --fhiaims geometry.in											      
 
 
-BUG report:
+# BUG report:
 If you see any bug in this plugin let me know.
 
 Author:		Ahmad Abdolmaleki
