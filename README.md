@@ -1,7 +1,7 @@
 # fhi2xsf
 visualizing FHI-aims geometry.in via xcrysden
 version:
-1.0.0
+1.0.1
 
 
 Install guide:
@@ -18,9 +18,9 @@ For installing fhi-aims plugin for xcrysden, at first install xcrysden , then :
 
 
 BUG report:
-If you see any bug in this plugin let me know.
+	If you see any bug in this plugin let me know.
 
 
-Author: Ahmad Abdolmaleki
-website: http://ahmadubuntu.ir
-researchgate: https://www.researchgate.net/profile/Ahmad_Abdolmaleki
+Author:		Ahmad Abdolmaleki
+website:	http://ahmadubuntu.ir
+researchgate:	https://www.researchgate.net/profile/Ahmad_Abdolmaleki
